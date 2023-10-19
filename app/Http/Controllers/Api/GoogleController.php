@@ -33,7 +33,13 @@ class GoogleController extends Controller
 
             $user = User::where('email', $googleUser->email)->first();
             if ($user) {
-                throw new \Exception(__('google sign in email existed'));
+                $token = $user->createToken('auth_token')->plainTextToken;
+
+                return response()->json([
+                    'message' => 'Đăng nhập thành công!',
+                    'token' => $token,
+                    'user' => $user,
+                ]);
             }
             $user = User::create(
                 [

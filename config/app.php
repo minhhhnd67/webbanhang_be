@@ -197,6 +197,7 @@ return [
 
         // Other service providers
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Laravel\Sanctum\SanctumServiceProvider::class,
 
     ],
 
@@ -214,6 +215,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Sanctum' => Laravel\Sanctum\Sanctum::class,
     ])->toArray(),
 
 ];
