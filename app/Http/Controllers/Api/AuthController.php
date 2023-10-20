@@ -2,64 +2,74 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
+
 // use Sanctum\Http\Controllers\AuthController as SanctumAuthController;
 
-class AuthController extends Controller
+class AuthController extends BaseController
 {
     public function register(Request $request)
     {
-        $data = $request->all();
+        try {
+            $data = $request->all();
 
-        $this->validate($request, [
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8',
-        ]);
+            $this->validate($request, [
+                'name' => 'required|string',
+                'email' => 'required|email|unique:users',
+                'password' => 'required|min:4',
+            ]);
 
-        $user = new User();
-        $user->name = $data['name'];
-        $user->email = $data['email'];
-        $user->password = Hash::make($data['password']);
-        $user->save();
+            $user = new User();
+            $user->name = $data['name'];
+            $user->email = $data['email'];
+            $user->password = Hash::make($data['password']);
+            $user->save();
+            $token = $user->createToken('auth_token')->plainTextToken;
 
-        return response()->json([
-            'message' => 'Đăng ký thành công!',
-            'user' => $user,
-        ]);
+            return $this->responseSuccess(['token' => $token]);
+        } catch (\Exception $e) {
+            return $this->responseFalse($e->getMessage());
+        }
     }
 
     public function login(Request $request)
     {
-        // $validator = Validator::make($request->all(), [
-        //     'email'    => 'required|string',
-        //     'password' => 'required|string',
-        // ]);
+        try {
+            $validator = Validator ::make($request->all(), [
+                'email'    => 'required|string',
+                'password' => 'required|string',
+            ]);
+            if ($validator->fails()) {
+                throw new ValidationException($validator);
+            }
 
-        // if ($validator->fails()) {
-        //     return response()->json(['error' => $validator->errors()], 400);
-        // }
+            if(!Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+                throw new Exception('Invalid token');
+            }
 
-        if(!Auth::attempt(['email' => $request->email, 'password' => $request->password])){
-            return response()->json(['message' => 'Invalid login details'], 401);
+            $user  = User::where('email', $request['email'])->firstOrFail();
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return $this->responseSuccess(['token' => $token]);
+        } catch (\Exception $e) {
+            return $this->responseFalse($e->getMessage());
         }
-
-        $user  = User::where('email', $request['email'])->firstOrFail();
-
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json([
-           'access_token' => $token,
-           'token_type'   => 'Bearer',
-        ]);
     }
 
     public function me(Request $request)
     {
-        return $request->user();
+        try {
+            return $this->responseSuccess($request->user());
+        } catch (\Exception $e) {
+            return $this->responseFalse($e->getMessage());
+        }
     }
 }
