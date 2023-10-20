@@ -14,10 +14,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 // Google Sign In
 Route::post('/get-google-sign-in-url', [\App\Http\Controllers\Api\GoogleController::class, 'getGoogleSignInUrl']);
 Route::get('/callback', [\App\Http\Controllers\Api\GoogleController::class, 'loginCallback']);
+
+Route::post('register', [\App\Http\Controllers\Api\AuthController::class, 'register']);
+Route::post('login', [\App\Http\Controllers\Api\AuthController::class, 'login']);
+
+// Route::middleware('auth:sanctum')->group(function () {
+//     Route::get('me', [\App\Http\Controllers\Api\AuthController::class, 'me']);
+// });
+
+Route::group([
+    'middleware' => ['auth:sanctum']
+], function () {
+    Route::get('me', [\App\Http\Controllers\Api\AuthController::class, 'me']);
+});
+
+
