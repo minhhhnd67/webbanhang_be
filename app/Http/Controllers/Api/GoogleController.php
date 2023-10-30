@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\User;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Cookie;
 
 class GoogleController extends Controller
 {
@@ -34,12 +35,9 @@ class GoogleController extends Controller
             $user = User::where('email', $googleUser->email)->first();
             if ($user) {
                 $token = $user->createToken('auth_token')->plainTextToken;
-
-                return response()->json([
-                    'message' => 'Đăng nhập thành công!',
-                    'token' => $token,
-                    'user' => $user,
-                ]);
+                $cookie = Cookie::make('token', $token);
+                // return redirect('http://localhost:8080/manager/close-window')->withHeaders(['token' => $token]);
+                return redirect("http://localhost:8080/close-window?token=$token");
             }
             $user = User::create(
                 [

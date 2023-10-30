@@ -28,7 +28,7 @@ Route::post('login', [\App\Http\Controllers\Api\AuthController::class, 'login'])
 // Route::middleware('auth:sanctum')->group(function () {
 //     Route::get('me', [\App\Http\Controllers\Api\AuthController::class, 'me']);
 // });
-
+ 
 Route::group([
     'middleware' => ['auth:sanctum']
 ], function () {
