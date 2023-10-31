@@ -25,14 +25,11 @@ Route::get('/callback', [\App\Http\Controllers\Api\GoogleController::class, 'log
 Route::post('register', [\App\Http\Controllers\Api\AuthController::class, 'register']);
 Route::post('login', [\App\Http\Controllers\Api\AuthController::class, 'login']);
 
-// Route::middleware('auth:sanctum')->group(function () {
-//     Route::get('me', [\App\Http\Controllers\Api\AuthController::class, 'me']);
-// });
- 
 Route::group([
     'middleware' => ['auth:sanctum']
 ], function () {
     Route::get('me', [\App\Http\Controllers\Api\AuthController::class, 'me']);
+    Route::post('logout', [\App\Http\Controllers\Api\AuthController::class, 'logout']);
 });
-
+ 
 
