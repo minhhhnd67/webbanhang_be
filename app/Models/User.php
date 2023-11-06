@@ -17,11 +17,26 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
+    public $table = 'users';
+
+    public $timestamps = true;
+
+    public $fillable = [
         'name',
         'email',
         'password',
-        'google_id',
+        'role',
+        'store_id',
+        'avatar',
+        'phone',
+        'province_id',
+        'province_name',
+        'district_id',
+        'district_name',
+        'ward_id',
+        'ward_name',
+        'address_detail',
+        'last_online',
     ];
 
     /**

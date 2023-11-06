@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Manager\StoreController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +31,16 @@ Route::group([
 ], function () {
     Route::get('me', [\App\Http\Controllers\Api\AuthController::class, 'me']);
     Route::post('logout', [\App\Http\Controllers\Api\AuthController::class, 'logout']);
+
+    Route::group([
+        'prefix' => 'store'
+    ], function() {
+        Route::get('', [\App\Http\Controllers\Api\Manager\StoreController::class, 'index']);
+        Route::post('create', [\App\Http\Controllers\Api\Manager\StoreController::class, 'store']);
+        Route::get('{id}/show', [\App\Http\Controllers\Api\Manager\StoreController::class, 'show']);
+        Route::post('{id}/update', [\App\Http\Controllers\Api\Manager\StoreController::class, 'update']);
+        Route::post('{id}/delete', [\App\Http\Controllers\Api\Manager\StoreController::class, 'destroy']);
+    });
 });
- 
+
 

@@ -11,14 +11,14 @@ class BaseRepository
 {
     protected $model;
 
-    public function __construct(Model $model)
+    public function __construct($model)
     {
         $this->model = $model;
     }
 
-    public function all()
+    public function all($relations = [])
     {
-        return $this->model->all();
+        return $this->model->with($relations)->get();
     }
 
     public function create(array $data)
@@ -53,10 +53,10 @@ class BaseRepository
         return $this->model->query();
     }
 
-    public function getList($limit, $relations = [])
+    public function getList($pageSize, $relations = [])
     {
         $data = $this->query()->with($relations);
-        return $data->paginate($limit);
+        return $data->paginate($pageSize);
     }
 
     public function insert(array $data)
