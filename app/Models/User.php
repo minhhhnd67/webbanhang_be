@@ -36,6 +36,7 @@ class User extends Authenticatable
         'ward_id',
         'ward_name',
         'address_detail',
+        'status',
         'last_online',
     ];
 
@@ -57,4 +58,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $appends = ['address'];
+
+    public function getAddressAttribute()
+    {
+        return "{$this->province_name} - {$this->district_name} - {$this->ward_name}";
+    }
 }

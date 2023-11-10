@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Manager\StoreController;
+use App\Http\Controllers\Api\Manager\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -40,6 +41,16 @@ Route::group([
         Route::get('{id}/show', [\App\Http\Controllers\Api\Manager\StoreController::class, 'show']);
         Route::post('{id}/update', [\App\Http\Controllers\Api\Manager\StoreController::class, 'update']);
         Route::post('{id}/delete', [\App\Http\Controllers\Api\Manager\StoreController::class, 'destroy']);
+    });
+
+    Route::group([
+        'prefix' => 'user'
+    ], function () {
+        Route::get('', [\App\Http\Controllers\Api\Manager\UserController::class, 'index']);
+        Route::post('create', [\App\Http\Controllers\Api\Manager\UserController::class, 'store']);
+        Route::get('{id}/show', [\App\Http\Controllers\Api\Manager\UserController::class, 'show']);
+        Route::post('{id}/update', [\App\Http\Controllers\Api\Manager\UserController::class, 'update']);
+        Route::post('{id}/delete', [\App\Http\Controllers\Api\Manager\UserController::class, 'destroy']);
     });
 });
 
