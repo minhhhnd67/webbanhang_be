@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('province_name');
             $table->integer('district_id');
             $table->string('district_name');
-            $table->integer('ward_id');
+            $table->string('ward_id');
             $table->string('ward_name');
             $table->timestamps();
         });

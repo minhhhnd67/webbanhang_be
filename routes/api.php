@@ -33,6 +33,8 @@ Route::group([
     Route::get('me', [\App\Http\Controllers\Api\AuthController::class, 'me']);
     Route::post('logout', [\App\Http\Controllers\Api\AuthController::class, 'logout']);
 
+    Route::post('upload-image', [\App\Http\Controllers\Api\MediaController::class, 'uploadImage']);
+
     Route::group([
         'prefix' => 'store'
     ], function() {

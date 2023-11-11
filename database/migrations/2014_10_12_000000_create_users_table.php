@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('province_name')->nullable();
             $table->integer('district_id')->nullable();
             $table->string('district_name')->nullable();
-            $table->integer('ward_id')->nullable();
+            $table->string('ward_id')->nullable();
             $table->string('ward_name')->nullable();
             $table->string('address_detail')->nullable();
             $table->timestamp('last_online')->nullable();
