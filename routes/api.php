@@ -54,6 +54,16 @@ Route::group([
         Route::post('{id}/update', [\App\Http\Controllers\Api\Manager\UserController::class, 'update']);
         Route::post('{id}/delete', [\App\Http\Controllers\Api\Manager\UserController::class, 'destroy']);
     });
+
+    Route::group([
+        'prefix' => 'category'
+    ], function () {
+        Route::get('', [\App\Http\Controllers\Api\Manager\CategoryController::class, 'index']);
+        Route::post('create', [\App\Http\Controllers\Api\Manager\CategoryController::class, 'store']);
+        Route::get('{id}/show', [\App\Http\Controllers\Api\Manager\CategoryController::class, 'show']);
+        Route::post('{id}/update', [\App\Http\Controllers\Api\Manager\CategoryController::class, 'update']);
+        Route::post('{id}/delete', [\App\Http\Controllers\Api\Manager\CategoryController::class, 'destroy']);
+    });
 });
 
 
