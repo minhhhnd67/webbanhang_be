@@ -31,9 +31,9 @@ class CategoryController extends BaseController
     public function index(Request $request)
     {
         try {
-            $pageSize = $request->pageSize ?? 10;
+            // $pageSize = $request->pageSize ?? 10;
             $relations = [];
-            $categories = $this->categoryRepository->getList($pageSize, $relations);
+            $categories = $this->categoryRepository->all($relations);
             return $this->responseSuccess($categories);
         } catch (\Exception $e) {
             return $this->responseFalse($e->getMessage());
@@ -91,8 +91,12 @@ class CategoryController extends BaseController
     {
         try {
             $relations = ['attributes.attributeOptions'];
-            $attribute = $this->categoryRepository->getById($id, $relations);
-            return $this->responseSuccess($attribute);
+            $category = $this->categoryRepository->getById($id, $relations);
+            foreach($category->attributes as &$attribute) {
+                $attribute->attributeOptions = $attribute->attributeOptions;
+            }
+
+            return $this->responseSuccess($category);
         } catch (Exception $e) {
             return $this->responseFalse($e->getMessage());
         }
