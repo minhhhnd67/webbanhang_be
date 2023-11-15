@@ -64,6 +64,16 @@ Route::group([
         Route::post('{id}/update', [\App\Http\Controllers\Api\Manager\CategoryController::class, 'update']);
         Route::post('{id}/delete', [\App\Http\Controllers\Api\Manager\CategoryController::class, 'destroy']);
     });
+
+    Route::group([
+        'prefix' => 'product'
+    ], function () {
+        Route::get('', [\App\Http\Controllers\Api\Manager\ProductController::class, 'index']);
+        Route::post('create', [\App\Http\Controllers\Api\Manager\ProductController::class, 'store']);
+        Route::get('{id}/show', [\App\Http\Controllers\Api\Manager\ProductController::class, 'show']);
+        Route::post('{id}/update', [\App\Http\Controllers\Api\Manager\ProductController::class, 'update']);
+        Route::post('{id}/delete', [\App\Http\Controllers\Api\Manager\ProductController::class, 'destroy']);
+    });
 });
 
 

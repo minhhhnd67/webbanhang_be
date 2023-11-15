@@ -28,4 +28,9 @@ class Store extends Model
     {
         return "{$this->province_name} - {$this->district_name} - {$this->ward_name}";
     }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'store_id');
+    }
 }

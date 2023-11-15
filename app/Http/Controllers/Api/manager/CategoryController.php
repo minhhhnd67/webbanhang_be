@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\manager;
+namespace App\Http\Controllers\Api\Manager;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
@@ -61,13 +61,13 @@ class CategoryController extends BaseController
         try {
             $data = $request->all();
             $category = $this->categoryRepository->create(['name' => $request['name']]);
-            $attributes = $request['attributes'];
+            $attributes = $request['attributes'] ?? [];
             foreach($attributes as $dataAttribute) {
                 $attribute = $this->attributeRepository->create([
                     'category_id' => $category->id,
                     'name' => $dataAttribute['name'],
                 ]);
-                $attributeOptions = $dataAttribute['attributeOptions'];
+                $attributeOptions = $dataAttribute['attributeOptions'] ?? [];
                 foreach($attributeOptions as $dataAttributeOption) {
                     $attributeOption = $this->attributeOptionRepository->create([
                         'attribute_id' => $attribute->id,

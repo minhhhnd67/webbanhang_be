@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('sku_options', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('product_id');
+            $table->bigInteger('sku_id');
             $table->string('name');
             $table->integer('change_price')->default(0);
             $table->timestamps();
