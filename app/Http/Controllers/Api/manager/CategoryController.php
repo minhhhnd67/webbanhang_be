@@ -32,7 +32,7 @@ class CategoryController extends BaseController
     {
         try {
             // $pageSize = $request->pageSize ?? 10;
-            $relations = [];
+            $relations = ['attributes.attributeOptions'];
             $categories = $this->categoryRepository->all($relations);
             return $this->responseSuccess($categories);
         } catch (\Exception $e) {

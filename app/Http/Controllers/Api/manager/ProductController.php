@@ -63,6 +63,7 @@ class ProductController extends BaseController
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         try {
             $data = $request->all();
             $product = $this->productRepository->create([
@@ -91,7 +92,7 @@ class ProductController extends BaseController
                     $this->skuOptionRepository->create([
                         'sku_id' => $sk->id,
                         'name' => $skuOption['name'],
-                        'change_price' => $skuOption['change_price']
+                        'change_price' => $skuOption['change_price'] ?? 0
                     ]);
                 }
             }
@@ -151,7 +152,7 @@ class ProductController extends BaseController
                 "name" => $data['name'],
                 "title" => $data['title'],
                 "description" => $data['description'],
-                "price" => $data['price'],
+                "price" => $data['price'] ?? 0,
                 "image" => $data['image'],
             ]);
 
@@ -180,7 +181,7 @@ class ProductController extends BaseController
                     $this->skuOptionRepository->create([
                         'sku_id' => $sk->id,
                         'name' => $skuOption['name'],
-                        'change_price' => $skuOption['change_price']
+                        'change_price' => $skuOption['change_price'] ?? 0
                     ]);
                 }
             }
