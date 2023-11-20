@@ -74,6 +74,16 @@ Route::group([
         Route::post('{id}/update', [\App\Http\Controllers\Api\Manager\ProductController::class, 'update']);
         Route::post('{id}/delete', [\App\Http\Controllers\Api\Manager\ProductController::class, 'destroy']);
     });
+
+    Route::group([
+        'prefix' => 'order'
+    ], function () {
+        Route::get('', [\App\Http\Controllers\Api\Manager\OrderController::class, 'index']);
+        Route::post('create', [\App\Http\Controllers\Api\Manager\OrderController::class, 'store']);
+        Route::get('{id}/show', [\App\Http\Controllers\Api\Manager\OrderController::class, 'show']);
+        Route::post('{id}/update', [\App\Http\Controllers\Api\Manager\OrderController::class, 'update']);
+        Route::post('{id}/delete', [\App\Http\Controllers\Api\Manager\OrderController::class, 'destroy']);
+    });
 });
 
 

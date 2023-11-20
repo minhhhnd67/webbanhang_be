@@ -16,8 +16,9 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->integer('store_id');
-            $table->bigInteger('user_id');
+            $table->bigInteger('user_id')->nullable();
             $table->integer('status');
+            $table->bigInteger('total_money');
             $table->integer('type');
             $table->string('name');
             $table->string('phone');
@@ -25,8 +26,9 @@ return new class extends Migration
             $table->string('province_name')->nullable();
             $table->integer('district_id')->nullable();
             $table->string('district_name')->nullable();
-            $table->integer('ward_id')->nullable();
+            $table->string('ward_id')->nullable();
             $table->string('ward_name')->nullable();
+            $table->string('address_detail')->nullable();
             $table->timestamps();
         });
     }
