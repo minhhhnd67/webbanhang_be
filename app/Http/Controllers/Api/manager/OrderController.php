@@ -8,6 +8,7 @@ use App\Repositories\Manager\OrderDetailRepository;
 use App\Repositories\Manager\OrderRepository;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class OrderController extends BaseController
 {
@@ -61,6 +62,7 @@ class OrderController extends BaseController
             $data = $request->all();
             $order = $this->orderRepository->create([
                 'store_id' => $data['store_id'],
+                'code' => $this->generateCode(),
                 'user_id' => $data['user_id'],
                 'status' => $data['status'],
                 'total_money' => $data['total_money'],
@@ -188,5 +190,14 @@ class OrderController extends BaseController
         } catch (Exception $e) {
             return $this->responseFalse($e->getMessage());
         }
+    }
+
+    public function generateCode()
+    {
+        $n = 8;
+        $range_start = 10 ** ($n - 1);
+        $range_end = (10 ** $n) - 1;
+        $random_integer = random_int($range_start, $range_end);
+        return $random_integer;
     }
 }
