@@ -15,4 +15,10 @@ class ProductRepository extends BaseRepository
         $products = $this->model->where([['store_id', $storeId]])->paginate($pageSize);
         return $products;
     }
+
+    public function getAllByStore($storeId, $relations = [])
+    {
+        $products = $this->model->with($relations)->where([['store_id', $storeId]])->get();
+        return $products;
+    }
 }

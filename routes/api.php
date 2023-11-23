@@ -69,6 +69,7 @@ Route::group([
         'prefix' => 'product'
     ], function () {
         Route::get('', [\App\Http\Controllers\Api\Manager\ProductController::class, 'index']);
+        Route::get('all', [\App\Http\Controllers\Api\Manager\ProductController::class, 'all']);
         Route::post('create', [\App\Http\Controllers\Api\Manager\ProductController::class, 'store']);
         Route::get('{id}/show', [\App\Http\Controllers\Api\Manager\ProductController::class, 'show']);
         Route::post('{id}/update', [\App\Http\Controllers\Api\Manager\ProductController::class, 'update']);

@@ -45,6 +45,19 @@ class ProductController extends BaseController
         }
     }
 
+    public function all(Request $request)
+    {
+        try {
+            $storeId = $request->storeId;
+            $relations = ['skus.skuOptions'];
+            $products = $this->productRepository->getAllByStore($storeId, $relations);
+
+            return $this->responseSuccess($products);
+        } catch(Exception $e) {
+            return $this->responseFalse($e->getMessage());
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *

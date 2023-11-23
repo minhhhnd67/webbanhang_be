@@ -29,6 +29,13 @@ class Order extends Model
         'address_detail',
     ];
 
+    protected $appends = ['address'];
+
+    public function getAddressAttribute()
+    {
+        return "{$this->address_detail} - {$this->ward_name} - {$this->district_name} - {$this->province_name}";
+    }
+
     public function orderDetails()
     {
         return $this->hasMany(OrderDetail::class, 'order_id');
