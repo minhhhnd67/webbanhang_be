@@ -17,11 +17,27 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
+    public $table = 'users';
+
+    public $timestamps = true;
+
+    public $fillable = [
         'name',
         'email',
         'password',
-        'google_id',
+        'role',
+        'store_id',
+        'avatar',
+        'phone',
+        'province_id',
+        'province_name',
+        'district_id',
+        'district_name',
+        'ward_id',
+        'ward_name',
+        'address_detail',
+        'status',
+        'last_online',
     ];
 
     /**
@@ -42,4 +58,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $appends = ['address'];
+
+    public function getAddressAttribute()
+    {
+        return "{$this->province_name} - {$this->district_name} - {$this->ward_name}";
+    }
 }

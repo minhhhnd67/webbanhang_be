@@ -72,4 +72,15 @@ class AuthController extends BaseController
             return $this->responseFalse($e->getMessage());
         }
     }
+
+    public function logout(Request $request)
+    {
+        try {
+            $request->user()->currentAccessToken()->delete();
+            return $this->responseSuccess();
+        } catch (\Exception $e) {
+            return $this->responseFalse($e->getMessage());
+        }
+
+    }
 }
