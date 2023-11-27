@@ -17,7 +17,9 @@ class MediaController extends BaseController
             $image = $request->file('image');
             $path = $request->path ?? 'images';
             $resPath = $this->saveImage($image, $path);
-            return $this->responseSuccess($resPath);
+            return $this->responseSuccess([
+                "path" => $resPath
+            ]);
         } catch (\Exception $e) {
             return $this->responseFalse($e->getMessage());
         }
