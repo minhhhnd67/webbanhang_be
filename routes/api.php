@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Customer\ProductController;
 use App\Http\Controllers\Api\Manager\StoreController;
 use App\Http\Controllers\Api\Manager\UserController;
 use Illuminate\Http\Request;
@@ -85,6 +86,15 @@ Route::group([
         Route::post('{id}/update', [\App\Http\Controllers\Api\Manager\OrderController::class, 'update']);
         Route::post('{id}/delete', [\App\Http\Controllers\Api\Manager\OrderController::class, 'destroy']);
     });
+});
+
+Route::group([
+    'prefix' => 'customer'
+], function() {
+    Route::get('store/all', [\App\Http\Controllers\Api\Customer\StoreController::class, 'index']);
+    Route::get('product', [\App\Http\Controllers\Api\Customer\ProductController::class, 'index']);
+    Route::get('store/{store_id}/get-new-product', [\App\Http\Controllers\Api\Customer\ProductController::class, 'getNewProductByStore']);
+
 });
 
 

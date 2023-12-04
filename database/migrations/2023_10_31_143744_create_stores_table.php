@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('district_name');
             $table->string('ward_id');
             $table->string('ward_name');
+            $table->string('address_detail')->nullable();
             $table->timestamps();
         });
     }

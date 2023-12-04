@@ -20,13 +20,14 @@ class Store extends Model
         'district_name',
         'ward_id',
         'ward_name',
+        'address_detail',
     ];
 
     protected $appends = ['address'];
 
     public function getAddressAttribute()
     {
-        return "{$this->province_name} - {$this->district_name} - {$this->ward_name}";
+        return "{$this->address_detail} - {$this->ward_name} - {$this->district_name} - {$this->province_name}";
     }
 
     public function products()

@@ -16,6 +16,12 @@ class ProductRepository extends BaseRepository
         return $products;
     }
 
+    public function getNewProductByStore($storeId, $limit)
+    {
+        $products = $this->model->where([['store_id', $storeId]])->orderBy('id', 'desc')->limit($limit)->get();
+        return $products;
+    }
+
     public function getAllByStore($storeId, $relations = [])
     {
         $products = $this->model->with($relations)->where([['store_id', $storeId]])->get();
