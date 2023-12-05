@@ -87,7 +87,14 @@ class ProductController extends BaseController
      */
     public function show($id)
     {
-        //
+        try {
+            $relations = ['skus.skuOptions', 'attributes'];
+            $product = $this->productRepository->getById($id, $relations);
+
+            return $this->responseSuccess($product);
+        } catch(Exception $e) {
+            return $this->responseFalse($e->getMessage());
+        }
     }
 
     /**
