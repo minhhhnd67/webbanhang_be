@@ -96,6 +96,7 @@ Route::group([
     Route::get('product', [\App\Http\Controllers\Api\Customer\ProductController::class, 'index']);
     Route::get('product/{id}/detail', [\App\Http\Controllers\Api\Customer\ProductController::class, 'show']);
     Route::get('store/{store_id}/get-new-product', [\App\Http\Controllers\Api\Customer\ProductController::class, 'getNewProductByStore']);
+    Route::get('store/{store_id}/search-product', [\App\Http\Controllers\Api\Customer\ProductController::class, 'searchProduct']);
 
 });
 

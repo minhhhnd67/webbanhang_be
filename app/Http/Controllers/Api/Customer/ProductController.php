@@ -57,6 +57,18 @@ class ProductController extends BaseController
         }
     }
 
+    public function searchProduct($store_id, Request $request)
+    {
+        try {
+            $search = $request->search ?? "";
+            $products = $this->productRepository->searchProduct($store_id, $search);
+
+            return $this->responseSuccess($products);
+        } catch (Exception $e) {
+            return $this->responseFalse($e->getMessage());
+        }
+    }
+
 
     /**
      * Show the form for creating a new resource.

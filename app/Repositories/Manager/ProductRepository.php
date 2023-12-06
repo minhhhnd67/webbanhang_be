@@ -22,6 +22,11 @@ class ProductRepository extends BaseRepository
         return $products;
     }
 
+    public function searchProduct($storeId, $search) {
+        $products = $this->model->where([['store_id', $storeId], ['name', 'like', "%$search%"]])->orderBy('id', 'desc')->get();
+        return $products;
+    }
+
     public function getAllByStore($storeId, $relations = [])
     {
         $products = $this->model->with($relations)->where([['store_id', $storeId]])->get();
