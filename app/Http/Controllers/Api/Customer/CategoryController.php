@@ -38,4 +38,19 @@ class CategoryController extends BaseController
             return $this->responseFalse($e->getMessage());
         }
     }
+
+    public function show($id)
+    {
+        try {
+            $relations = ['attributes.attributeOptions'];
+            $category = $this->categoryRepository->getById($id, $relations);
+            foreach($category->attributes as &$attribute) {
+                $attribute->attributeOptions = $attribute->attributeOptions;
+            }
+
+            return $this->responseSuccess($category);
+        } catch (Exception $e) {
+            return $this->responseFalse($e->getMessage());
+        }
+    }
 }

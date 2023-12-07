@@ -22,8 +22,15 @@ class ProductRepository extends BaseRepository
         return $products;
     }
 
-    public function searchProduct($storeId, $search) {
-        $products = $this->model->where([['store_id', $storeId], ['name', 'like', "%$search%"]])->orderBy('id', 'desc')->get();
+    public function searchProduct($storeId, $parameters, $pageSize) {
+        $products = $this->model->where('store_id', $storeId);
+        if (isset($parameters['search']) && $parameters['search']) {
+            $products = $products->where('name', 'like', "%".$parameters['search']."%");
+        }
+        if (isset($parameters['category_id']) && $parameters['category_id']) {
+            $products = $products->where('category_id', $parameters['category_id']);
+        }
+        $products = $products->orderBy('id', 'desc')->paginate($pageSize);
         return $products;
     }
 

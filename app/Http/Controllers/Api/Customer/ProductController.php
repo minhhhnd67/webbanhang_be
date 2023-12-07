@@ -60,8 +60,13 @@ class ProductController extends BaseController
     public function searchProduct($store_id, Request $request)
     {
         try {
-            $search = $request->search ?? "";
-            $products = $this->productRepository->searchProduct($store_id, $search);
+            $parameters = [
+                'search' => $request->search ?? '',
+                'category_id' => $request->category_id ?? '',
+                'attributes' => $request->attributes ?? [],
+            ];
+            $pageSize = $request->pageSize ?? 12;
+            $products = $this->productRepository->searchProduct($store_id, $parameters, $pageSize);
 
             return $this->responseSuccess($products);
         } catch (Exception $e) {
