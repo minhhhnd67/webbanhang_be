@@ -48,7 +48,7 @@ class ProductController extends BaseController
     public function getNewProductByStore($store_id, Request $request)
     {
         try {
-            $limit = $request->limit ?? 12;
+            $limit = $request->limit ?? 24;
             $products = $this->productRepository->getNewProductByStore($store_id, $limit);
 
             return $this->responseSuccess($products);
