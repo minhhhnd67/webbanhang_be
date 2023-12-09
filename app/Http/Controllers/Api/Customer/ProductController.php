@@ -61,9 +61,9 @@ class ProductController extends BaseController
     {
         try {
             $parameters = [
-                'search' => $request->search ?? '',
-                'category_id' => $request->category_id ?? '',
-                'attributes' => $request->attributes ?? [],
+                'search' => request()->input('search') ?? '',
+                'category_id' => request()->input('category_id') ?? '',
+                'attributes' => request()->input('attributes') ?? [],
             ];
             $pageSize = $request->pageSize ?? 12;
             $products = $this->productRepository->searchProduct($store_id, $parameters, $pageSize);
