@@ -28,6 +28,8 @@ Route::get('/callback', [\App\Http\Controllers\Api\GoogleController::class, 'log
 Route::post('register', [\App\Http\Controllers\Api\AuthController::class, 'register']);
 Route::post('login', [\App\Http\Controllers\Api\AuthController::class, 'login']);
 
+Route::post('payment/vnpay', [\App\Http\Controllers\PaymentController::class, 'paymentVNPAY']);
+
 Route::group([
     'middleware' => ['auth:sanctum']
 ], function () {
