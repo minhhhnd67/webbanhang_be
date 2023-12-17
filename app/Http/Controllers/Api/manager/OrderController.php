@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\manager;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Repositories\Manager\OrderDetailRepository;
 use App\Repositories\Manager\OrderRepository;
 use Exception;
@@ -80,9 +81,13 @@ class OrderController extends BaseController
 
             $order_details = $data['order_details'] ?? [];
             foreach($order_details as $order_detail) {
+                $product = Product::where('id', $order_detail['product_id'])->first();
                 $this->orderDetailRepository->create([
                     'order_id' => $order->id,
                     'product_id' => $order_detail['product_id'],
+                    'code' => $product->code,
+                    'name' => $product->name,
+                    'price' => $product->price,
                     'amount' => $order_detail['amount'],
                     'sku_info' => $order_detail['sku_info'],
                 ]);
@@ -157,9 +162,13 @@ class OrderController extends BaseController
 
             $order_details = $data['order_details'] ?? [];
             foreach($order_details as $order_detail) {
+                $product = Product::where('id', $order_detail['product_id'])->first();
                 $this->orderDetailRepository->create([
                     'order_id' => $order->id,
                     'product_id' => $order_detail['product_id'],
+                    'code' => $product->code,
+                    'name' => $product->name,
+                    'price' => $product->price,
                     'amount' => $order_detail['amount'],
                     'sku_info' => $order_detail['sku_info'],
                 ]);

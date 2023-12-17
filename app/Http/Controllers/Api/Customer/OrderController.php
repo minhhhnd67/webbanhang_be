@@ -82,6 +82,9 @@ class OrderController extends BaseController
                 $this->orderDetailRepository->create([
                     'order_id' => $order->id,
                     'product_id' => $order_detail['product_id'],
+                    'code' => $order_detail['code'],
+                    'name' => $order_detail['name'],
+                    'price' => $order_detail['price'],
                     'amount' => $order_detail['amount'],
                     'sku_info' => $order_detail['skus'],
                 ]);
