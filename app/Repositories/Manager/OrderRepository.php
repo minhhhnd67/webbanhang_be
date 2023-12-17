@@ -18,7 +18,7 @@ class OrderRepository extends BaseRepository
 
     public function getOrderByUser($userId, $relations = [], $pageSize = 10)
     {
-        $orders = $this->model->with($relations)->where('store_id', $userId)->orderBy('created_at', 'DESC')->paginate($pageSize);
+        $orders = $this->model->with($relations)->where('user_id', $userId)->orderBy('created_at', 'DESC')->paginate($pageSize);
         return $orders;
     }
 }

@@ -29,8 +29,8 @@ class OrderController extends BaseController
     {
         try {
             $pageSize = $request->pageSize ?? 10;
-            $userId = $request->userId ?? '';
-            $relations = ['orderDetails.product'];
+            $userId = $request->user_id ?? '';
+            $relations = ['orderDetails'];
             $orders = $this->orderRepository->getOrderByUser($userId, $relations, $pageSize);
 
             return $this->responseSuccess($orders);
