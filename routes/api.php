@@ -102,6 +102,7 @@ Route::group([
     Route::get('store/{store_id}/search-product', [\App\Http\Controllers\Api\Customer\ProductController::class, 'searchProduct']);
     Route::get('order/index', [\App\Http\Controllers\Api\Customer\OrderController::class, 'index']);
     Route::post('order/store', [\App\Http\Controllers\Api\Customer\OrderController::class, 'store']);
+    Route::post('order/{id}/update', [\App\Http\Controllers\Api\Customer\OrderController::class, 'update']);
 });
 
 

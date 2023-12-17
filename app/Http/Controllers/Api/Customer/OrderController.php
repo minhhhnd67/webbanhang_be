@@ -87,7 +87,7 @@ class OrderController extends BaseController
                 ]);
             }
 
-            return $this->responseSuccess();
+            return $this->responseSuccess(['order_id' => $order->id]);
         } catch(Exception $e) {
             return $this->responseFalse($e->getMessage());
         }
@@ -131,7 +131,24 @@ class OrderController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $relations = [];
+            $order = $this->orderRepository->getById($id, $relations);
+            if (isset($request->code_shipping)) {
+                $order->update([
+                    'code_shipping' => $request->code_shipping
+                ]);
+            }
+            if (isset($request->status)) {
+                $order->update([
+                    'status' => $request->status
+                ]);
+            }
+
+            return $this->responseSuccess();
+        } catch (Exception $e) {
+            return $this->responseFalse($e->getMessage());
+        }
     }
 
     /**
