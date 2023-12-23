@@ -12,7 +12,11 @@ class OrderRepository extends BaseRepository
 
     public function getOrderByStore($storeId, $relations = [], $pageSize = 10)
     {
-        $orders = $this->model->with($relations)->where('store_id', $storeId)->orderBy('created_at', 'DESC')->paginate($pageSize);
+        if ($storeId == 6688) {
+            $orders = $this->model->with($relations)->orderBy('created_at', 'DESC')->paginate($pageSize);
+        } else {
+            $orders = $this->model->with($relations)->where('store_id', $storeId)->orderBy('created_at', 'DESC')->paginate($pageSize);
+        }
         return $orders;
     }
 

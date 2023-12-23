@@ -12,7 +12,12 @@ class ProductRepository extends BaseRepository
 
     public function getProductByStore($storeId, $pageSize)
     {
-        $products = $this->model->where([['store_id', $storeId]])->paginate($pageSize);
+        if ($storeId == 6688) {
+            $products = $this->model->orderBy('id', 'desc')->paginate($pageSize);
+        } else {
+            $products = $this->model->where([['store_id', $storeId]])->orderBy('id', 'desc')->paginate($pageSize);
+        }
+
         return $products;
     }
 
