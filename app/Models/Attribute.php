@@ -14,6 +14,7 @@ class Attribute extends Model
     public $fillable = [
         'category_id',
         'name',
+        'suggest_point',
     ];
 
     public function category()

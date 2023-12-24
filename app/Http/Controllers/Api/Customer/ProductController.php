@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Customer;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Repositories\Manager\ProductAttributeRepository;
 use App\Repositories\Manager\ProductRepository;
 use App\Repositories\Manager\SkuOptionRepository;
@@ -40,7 +41,7 @@ class ProductController extends BaseController
             $products = $this->productRepository->getProductByStore($storeId, $pageSize);
 
             return $this->responseSuccess($products);
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return $this->responseFalse($e->getMessage());
         }
     }
@@ -52,7 +53,7 @@ class ProductController extends BaseController
             $products = $this->productRepository->getNewProductByStore($store_id, $limit);
 
             return $this->responseSuccess($products);
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return $this->responseFalse($e->getMessage());
         }
     }
@@ -109,7 +110,43 @@ class ProductController extends BaseController
             $product = $this->productRepository->getById($id, $relations);
 
             return $this->responseSuccess($product);
-        } catch(Exception $e) {
+        } catch (Exception $e) {
+            return $this->responseFalse($e->getMessage());
+        }
+    }
+
+    public function suggest($id)
+    {
+        try {
+            $relations = ['skus.skuOptions', 'attributes'];
+            $product = $this->productRepository->getById($id, $relations);
+            $valueAttributes = $product->attributes->pluck('pivot.attribute_option_id')->toArray();
+
+            // get list product in category
+            $listProducts = Product::with(['attributes'])
+                ->where([['store_id', $product->store_id], ['category_id', $product->category_id]])
+                ->whereNot('id', $product->id)
+                ->get();
+
+            // calculate point suggest
+            $arrPoints = [];
+            foreach($listProducts as $prd) {
+                $arrPoints[$prd->id] = 0;
+                foreach($prd->attributes as $attribute) {
+                    $arrPoints[$prd->id] += (in_array($attribute->pivot->attribute_option_id, $valueAttributes) ? 1 : 0) * $attribute->suggest_point;
+                }
+            }
+
+            // get top 3 product
+            arsort($arrPoints);
+            // return $this->responseSuccess($arrPoints);
+
+
+            $resIds = array_slice(array_keys($arrPoints), 0, 3);
+            $resData = $listProducts->whereIn('id', $resIds);
+
+            return $this->responseSuccess($resData);
+        } catch (Exception $e) {
             return $this->responseFalse($e->getMessage());
         }
     }
