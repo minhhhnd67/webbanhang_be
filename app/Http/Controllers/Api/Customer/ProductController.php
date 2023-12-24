@@ -142,7 +142,7 @@ class ProductController extends BaseController
             // return $this->responseSuccess($arrPoints);
 
 
-            $resIds = array_slice(array_keys($arrPoints), 0, 3);
+            $resIds = array_slice(array_keys($arrPoints), 0, 4);
             $resData = $listProducts->whereIn('id', $resIds);
 
             return $this->responseSuccess($resData);
