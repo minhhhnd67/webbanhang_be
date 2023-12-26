@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Customer\ProductController;
 use App\Http\Controllers\Api\Manager\StoreController;
 use App\Http\Controllers\Api\Manager\UserController;
 use Illuminate\Http\Request;
@@ -26,6 +27,8 @@ Route::get('/callback', [\App\Http\Controllers\Api\GoogleController::class, 'log
 
 Route::post('register', [\App\Http\Controllers\Api\AuthController::class, 'register']);
 Route::post('login', [\App\Http\Controllers\Api\AuthController::class, 'login']);
+
+Route::post('payment/vnpay', [\App\Http\Controllers\PaymentController::class, 'paymentVNPAY']);
 
 Route::group([
     'middleware' => ['auth:sanctum']
@@ -85,6 +88,30 @@ Route::group([
         Route::post('{id}/update', [\App\Http\Controllers\Api\Manager\OrderController::class, 'update']);
         Route::post('{id}/delete', [\App\Http\Controllers\Api\Manager\OrderController::class, 'destroy']);
     });
+
+    Route::group([
+        'prefix' => 'statistic'
+    ], function () {
+        Route::get('get-total-order-by-date', [\App\Http\Controllers\Api\Manager\StatisticController::class, 'getTotalOrderByDate']);
+        Route::get('get-data-for-line-chart', [\App\Http\Controllers\Api\Manager\StatisticController::class, 'getDataForLineChart']);
+    });
+});
+
+Route::group([
+    'prefix' => 'customer'
+], function() {
+    Route::get('store/all', [\App\Http\Controllers\Api\Customer\StoreController::class, 'index']);
+    Route::get('category/all', [\App\Http\Controllers\Api\Customer\CategoryController::class, 'index']);
+    Route::get('category/{id}/detail', [\App\Http\Controllers\Api\Customer\CategoryController::class, 'show']);
+    Route::get('product', [\App\Http\Controllers\Api\Customer\ProductController::class, 'index']);
+    Route::get('product/{id}/detail', [\App\Http\Controllers\Api\Customer\ProductController::class, 'show']);
+    Route::get('product/{id}/suggest', [\App\Http\Controllers\Api\Customer\ProductController::class, 'suggest']);
+    Route::get('store/{store_id}/get-new-product', [\App\Http\Controllers\Api\Customer\ProductController::class, 'getNewProductByStore']);
+    Route::get('store/{store_id}/search-product', [\App\Http\Controllers\Api\Customer\ProductController::class, 'searchProduct']);
+    Route::get('order/index', [\App\Http\Controllers\Api\Customer\OrderController::class, 'index']);
+    Route::post('order/store', [\App\Http\Controllers\Api\Customer\OrderController::class, 'store']);
+    Route::post('order/{id}/update', [\App\Http\Controllers\Api\Customer\OrderController::class, 'update']);
+    Route::get('get-total-order-by-date', );
 });
 
 

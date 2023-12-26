@@ -66,6 +66,7 @@ class CategoryController extends BaseController
                 $attribute = $this->attributeRepository->create([
                     'category_id' => $category->id,
                     'name' => $dataAttribute['name'],
+                    'suggest_point' => $dataAttribute['suggest_point'] ?? 1,
                 ]);
                 $attributeOptions = $dataAttribute['attributeOptions'] ?? [];
                 foreach($attributeOptions as $dataAttributeOption) {
@@ -141,6 +142,7 @@ class CategoryController extends BaseController
                 $attribute = $this->attributeRepository->create([
                     'category_id' => $category->id,
                     'name' => $dataAttribute['name'],
+                    'suggest_point' => $dataAttribute['suggest_point'],
                 ]);
                 $attributeOptions = $dataAttribute['attributeOptions'];
                 foreach($attributeOptions as $dataAttributeOption) {

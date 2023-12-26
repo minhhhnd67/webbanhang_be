@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('category_id');
             $table->string('name');
+            $table->integer('suggest_point')->nullable()->default(1);
             $table->timestamps();
         });
     }

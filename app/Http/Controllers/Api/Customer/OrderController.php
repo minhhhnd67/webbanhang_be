@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api\manager;
+namespace App\Http\Controllers\Api\Customer;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
-use App\Models\Product;
+use Illuminate\Http\Request;
+use Exception;
 use App\Repositories\Manager\OrderDetailRepository;
 use App\Repositories\Manager\OrderRepository;
-use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class OrderController extends BaseController
 {
@@ -31,9 +29,9 @@ class OrderController extends BaseController
     {
         try {
             $pageSize = $request->pageSize ?? 10;
-            $storeId = $request->storeId ?? '';
-            $relations = ['orderDetails.product'];
-            $orders = $this->orderRepository->getOrderByStore($storeId, $relations, $pageSize);
+            $userId = $request->user_id ?? '';
+            $relations = ['orderDetails'];
+            $orders = $this->orderRepository->getOrderByUser($userId, $relations, $pageSize);
 
             return $this->responseSuccess($orders);
         } catch(Exception $e) {
@@ -46,9 +44,9 @@ class OrderController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-
+        //
     }
 
     /**
@@ -81,19 +79,18 @@ class OrderController extends BaseController
 
             $order_details = $data['order_details'] ?? [];
             foreach($order_details as $order_detail) {
-                $product = Product::where('id', $order_detail['product_id'])->first();
                 $this->orderDetailRepository->create([
                     'order_id' => $order->id,
                     'product_id' => $order_detail['product_id'],
-                    'code' => $product->code,
-                    'name' => $product->name,
-                    'price' => $product->price,
+                    'code' => $order_detail['code'],
+                    'name' => $order_detail['name'],
+                    'price' => $order_detail['price'],
                     'amount' => $order_detail['amount'],
-                    'sku_info' => $order_detail['sku_info'],
+                    'sku_info' => $order_detail['skus'],
                 ]);
             }
 
-            return $this->responseSuccess();
+            return $this->responseSuccess(['order_id' => $order->id]);
         } catch(Exception $e) {
             return $this->responseFalse($e->getMessage());
         }
@@ -138,39 +135,16 @@ class OrderController extends BaseController
     public function update(Request $request, $id)
     {
         try {
-            $data = $request->all();
-            $relations = ['orderDetails.product'];
+            $relations = [];
             $order = $this->orderRepository->getById($id, $relations);
-            $order->update([
-                'store_id' => $data['store_id'],
-                'user_id' => $data['user_id'],
-                'status' => $data['status'],
-                'total_money' => $data['total_money'],
-                'type' => $data['type'],
-                'name' => $data['name'],
-                'phone' => $data['phone'],
-                'province_id' => $data['province_id'],
-                'province_name' => $data['province_name'],
-                'district_id' => $data['district_id'],
-                'district_name' => $data['district_name'],
-                'ward_id' => $data['ward_id'],
-                'ward_name' => $data['ward_name'],
-                'address_detail' => $data['address_detail'],
-            ]);
-
-            $order->orderDetails()->delete();
-
-            $order_details = $data['order_details'] ?? [];
-            foreach($order_details as $order_detail) {
-                $product = Product::where('id', $order_detail['product_id'])->first();
-                $this->orderDetailRepository->create([
-                    'order_id' => $order->id,
-                    'product_id' => $order_detail['product_id'],
-                    'code' => $product->code,
-                    'name' => $product->name,
-                    'price' => $product->price,
-                    'amount' => $order_detail['amount'],
-                    'sku_info' => $order_detail['sku_info'],
+            if (isset($request->code_shipping)) {
+                $order->update([
+                    'code_shipping' => $request->code_shipping
+                ]);
+            }
+            if (isset($request->status)) {
+                $order->update([
+                    'status' => $request->status
                 ]);
             }
 
@@ -188,17 +162,7 @@ class OrderController extends BaseController
      */
     public function destroy($id)
     {
-        try {
-            $relations = ['orderDetails.product'];
-            $order = $this->orderRepository->getById($id, $relations);
-
-            $order->orderDetails()->delete();
-            $order->delete();
-
-            return $this->responseSuccess();
-        } catch (Exception $e) {
-            return $this->responseFalse($e->getMessage());
-        }
+        //
     }
 
     public function generateCode()

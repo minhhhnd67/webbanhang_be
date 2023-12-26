@@ -14,6 +14,7 @@ class Order extends Model
     public $fillable = [
         'store_id',
         'code',
+        'code_shipping',
         'user_id',
         'status',
         'total_money',
@@ -27,6 +28,7 @@ class Order extends Model
         'ward_id',
         'ward_name',
         'address_detail',
+        'note',
     ];
 
     protected $appends = ['address'];

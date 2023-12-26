@@ -24,13 +24,28 @@ class AuthController extends BaseController
             $this->validate($request, [
                 'name' => 'required|string',
                 'email' => 'required|email|unique:users',
-                'password' => 'required|min:4',
+                'phone' => 'required|min:4',
+                'province_id' => 'required',
+                'province_name' => 'required',
+                'district_id' => 'required',
+                'district_name' => 'required',
+                'ward_id' => 'required',
+                'ward_name' => 'required',
+                'address_detail' => 'required',
             ]);
 
             $user = new User();
             $user->name = $data['name'];
             $user->email = $data['email'];
             $user->password = Hash::make($data['password']);
+            $user->phone = $data['phone'];
+            $user->province_id = $data['province_id'];
+            $user->province_name = $data['province_name'];
+            $user->district_id = $data['district_id'];
+            $user->district_name = $data['district_name'];
+            $user->ward_id = $data['ward_id'];
+            $user->ward_name = $data['ward_name'];
+            $user->address_detail = $data['address_detail'];
             $user->save();
             $token = $user->createToken('auth_token')->plainTextToken;
 

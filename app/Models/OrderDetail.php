@@ -14,6 +14,9 @@ class OrderDetail extends Model
     public $fillable = [
         'order_id',
         'product_id',
+        'code',
+        'name',
+        'price',
         'amount',
         'sku_info',
     ];
