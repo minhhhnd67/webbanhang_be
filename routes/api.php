@@ -88,6 +88,13 @@ Route::group([
         Route::post('{id}/update', [\App\Http\Controllers\Api\Manager\OrderController::class, 'update']);
         Route::post('{id}/delete', [\App\Http\Controllers\Api\Manager\OrderController::class, 'destroy']);
     });
+
+    Route::group([
+        'prefix' => 'statistic'
+    ], function () {
+        Route::get('get-total-order-by-date', [\App\Http\Controllers\Api\Manager\StatisticController::class, 'getTotalOrderByDate']);
+        Route::get('get-data-for-line-chart', [\App\Http\Controllers\Api\Manager\StatisticController::class, 'getDataForLineChart']);
+    });
 });
 
 Route::group([
@@ -104,6 +111,7 @@ Route::group([
     Route::get('order/index', [\App\Http\Controllers\Api\Customer\OrderController::class, 'index']);
     Route::post('order/store', [\App\Http\Controllers\Api\Customer\OrderController::class, 'store']);
     Route::post('order/{id}/update', [\App\Http\Controllers\Api\Customer\OrderController::class, 'update']);
+    Route::get('get-total-order-by-date', );
 });
 
 
