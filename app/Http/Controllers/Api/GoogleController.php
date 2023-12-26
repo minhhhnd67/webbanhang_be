@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\User;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Cookie;
 
 class GoogleController extends Controller
 {
@@ -33,7 +34,10 @@ class GoogleController extends Controller
 
             $user = User::where('email', $googleUser->email)->first();
             if ($user) {
-                throw new \Exception(__('google sign in email existed'));
+                $token = $user->createToken('auth_token')->plainTextToken;
+                $cookie = Cookie::make('token', $token);
+                // return redirect('http://localhost:8080/manager/close-window')->withHeaders(['token' => $token]);
+                return redirect("http://localhost:8080/close-window?token=$token");
             }
             $user = User::create(
                 [
@@ -43,10 +47,8 @@ class GoogleController extends Controller
                     'password'=> '123',
                 ]
             );
-            return response()->json([
-                'status' => __('google sign in successful'),
-                'data' => $user,
-            ], Response::HTTP_CREATED);
+            $token = $user->createToken('auth_token')->plainTextToken;
+            return redirect("http://localhost:8080/close-window?token=$token");
 
         } catch (\Exception $exception) {
             return response()->json( [
