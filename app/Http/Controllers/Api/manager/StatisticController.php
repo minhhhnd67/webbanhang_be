@@ -39,16 +39,16 @@ class StatisticController extends BaseController
     public function getDataForLineChart(Request $request)
     {
         try {
-            $end_date = $this->makeDateStart($request->end_date);
-            $start_date = $this->makeDateEnd($request->start_date);
+            $end_date = $request->end_date;
+            $start_date = $request->start_date;
 
 
             $data_total_order = DB::select(DB::raw("WITH RECURSIVE
-            cte AS ( SELECT '2023-12-01' AS `data_date`
+            cte AS ( SELECT '$start_date' AS `data_date`
                    UNION ALL
                      SELECT `data_date` + INTERVAL 1 DAY
                      FROM cte
-                     WHERE `data_date` < '2023-12-25' )
+                     WHERE `data_date` < '$end_date' )
             SELECT `data_date`, COALESCE(od.amount_order, 0) amount_orders
             FROM (
             SELECT DATE_FORMAT(created_at, '%Y-%m-%d') AS data_date, count(id) as amount_order
@@ -59,11 +59,11 @@ class StatisticController extends BaseController
             // dd(array_column($data_total_order, 'data_date'));
 
             $data_order_offline = DB::select(DB::raw("WITH RECURSIVE
-            cte AS ( SELECT '2023-12-01' AS `data_date`
+            cte AS ( SELECT '$start_date' AS `data_date`
                    UNION ALL
                      SELECT `data_date` + INTERVAL 1 DAY
                      FROM cte
-                     WHERE `data_date` < '2023-12-25' )
+                     WHERE `data_date` < '$end_date' )
             SELECT `data_date`, COALESCE(od.amount_order, 0) amount_orders
             FROM (
             SELECT DATE_FORMAT(created_at, '%Y-%m-%d') AS data_date, count(id) as amount_order
@@ -74,11 +74,11 @@ class StatisticController extends BaseController
             RIGHT JOIN cte USING (`data_date`)"));
 
             $data_order_online = DB::select(DB::raw("WITH RECURSIVE
-            cte AS ( SELECT '2023-12-01' AS `data_date`
+            cte AS ( SELECT '$start_date' AS `data_date`
                    UNION ALL
                      SELECT `data_date` + INTERVAL 1 DAY
                      FROM cte
-                     WHERE `data_date` < '2023-12-25' )
+                     WHERE `data_date` < '$end_date' )
             SELECT `data_date`, COALESCE(od.amount_order, 0) amount_orders
             FROM (
             SELECT DATE_FORMAT(created_at, '%Y-%m-%d') AS data_date, count(id) as amount_order
