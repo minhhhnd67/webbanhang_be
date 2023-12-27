@@ -42,7 +42,6 @@ class StatisticController extends BaseController
             $end_date = $request->end_date;
             $start_date = $request->start_date;
 
-
             $data_total_order = DB::select(DB::raw("WITH RECURSIVE
             cte AS ( SELECT '$start_date' AS `data_date`
                    UNION ALL
