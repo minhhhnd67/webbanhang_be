@@ -108,6 +108,10 @@ class OrderController extends BaseController
                     'amount' => $order_detail['amount'],
                     'sku_info' => $order_detail['sku_info'],
                 ]);
+                $product = Product::where('id', $order_detail['product_id'])->first();
+                $product->update([
+                    'amount' => $product->amount -  $order_detail['amount'],
+                ]);
             }
 
             return $this->responseSuccess();
