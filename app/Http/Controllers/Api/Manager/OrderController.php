@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\manager;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\Product;
 use App\Repositories\Manager\OrderDetailRepository;
 use App\Repositories\Manager\OrderRepository;
@@ -32,8 +33,24 @@ class OrderController extends BaseController
         try {
             $pageSize = $request->pageSize ?? 10;
             $storeId = $request->storeId ?? '';
+            $search_type = $request->search_type ?? '';
+            $search_status = $request->search_status ?? '';
+            $search_code = $request->search_code ?? '';
             $relations = ['orderDetails.product'];
-            $orders = $this->orderRepository->getOrderByStore($storeId, $relations, $pageSize);
+            $orders = Order::with($relations);
+            if ($storeId != 6688) {
+                $orders = $orders->where('store_id', $storeId);
+            }
+            if ($search_code) {
+                $orders = $orders->where('code', $search_code);
+            }
+            if ($search_type) {
+                $orders = $orders->where('type', $search_type);
+            }
+            if ($search_status) {
+                $orders = $orders->where('status', $search_status);
+            }
+            $orders = $orders->orderBy('created_at', 'DESC')->paginate($pageSize);
 
             return $this->responseSuccess($orders);
         } catch(Exception $e) {
