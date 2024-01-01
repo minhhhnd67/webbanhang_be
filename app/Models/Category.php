@@ -13,6 +13,7 @@ class Category extends Model
 
     public $fillable = [
         'name',
+        'icon',
     ];
 
     public function attributes()
