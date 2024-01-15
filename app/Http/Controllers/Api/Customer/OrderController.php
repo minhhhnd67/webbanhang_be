@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Customer;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Exception;
 use App\Repositories\Manager\OrderDetailRepository;
@@ -87,6 +88,10 @@ class OrderController extends BaseController
                     'price' => $order_detail['price'],
                     'amount' => $order_detail['amount'],
                     'sku_info' => $order_detail['skus'],
+                ]);
+                $product = Product::where('id', $order_detail['product_id'])->first();
+                $product->update([
+                    'amount' => $product->amount -  $order_detail['amount'],
                 ]);
             }
 

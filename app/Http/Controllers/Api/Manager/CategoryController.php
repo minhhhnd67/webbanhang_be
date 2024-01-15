@@ -60,7 +60,10 @@ class CategoryController extends BaseController
     {
         try {
             $data = $request->all();
-            $category = $this->categoryRepository->create(['name' => $request['name']]);
+            $category = $this->categoryRepository->create([
+                'name' => $request['name'],
+                'icon' => $request['icon'] ?? 'el-icon-mobile-phone',
+            ]);
             $attributes = $request['attributes'] ?? [];
             foreach($attributes as $dataAttribute) {
                 $attribute = $this->attributeRepository->create([
@@ -129,6 +132,7 @@ class CategoryController extends BaseController
             $category = $this->categoryRepository->getById($id, $relations);
             $category->update([
                 'name' => $data['name'],
+                'icon' => $data['icon'] ?? 'el-icon-mobile-phone',
             ]);
 
             $attributes = $category->attributes;

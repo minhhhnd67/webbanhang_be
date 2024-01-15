@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('code');
             $table->string('name');
             $table->string('title')->nullable();
+            $table->integer('price')->nullable()->default(0);
             $table->text('description')->nullable();
             $table->bigInteger('price')->default(0);
             $table->string('image');

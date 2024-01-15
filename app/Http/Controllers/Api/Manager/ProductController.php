@@ -88,6 +88,7 @@ class ProductController extends BaseController
                 "title" => $data['title'],
                 "description" => $data['description'],
                 "price" => $data['price'],
+                "amount" => $data['amount'] ?? 0,
                 "image" => $data['image'],
             ]);
             $attributes = $data['attributes'] ?? [];
@@ -167,6 +168,7 @@ class ProductController extends BaseController
                 "title" => $data['title'],
                 "description" => $data['description'],
                 "price" => $data['price'] ?? 0,
+                "amount" => $data['amount'] ?? 0,
                 "image" => $data['image'],
             ]);
 

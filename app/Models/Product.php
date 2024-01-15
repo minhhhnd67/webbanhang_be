@@ -17,6 +17,7 @@ class Product extends Model
         'code',
         'name',
         'title',
+        'amount',
         'description',
         'price',
         'image',
