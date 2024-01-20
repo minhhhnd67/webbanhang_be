@@ -36,8 +36,8 @@ class GoogleController extends Controller
             if ($user) {
                 $token = $user->createToken('auth_token')->plainTextToken;
                 $cookie = Cookie::make('token', $token);
-                // return redirect('http://44.211.160.147/manager/close-window')->withHeaders(['token' => $token]);
-                return redirect("http://44.211.160.147/close-window?token=$token");
+                // return redirect('https://mobistore.click/manager/close-window')->withHeaders(['token' => $token]);
+                return redirect("https://mobistore.click/close-window?token=$token");
             }
             $user = User::create(
                 [
@@ -48,7 +48,7 @@ class GoogleController extends Controller
                 ]
             );
             $token = $user->createToken('auth_token')->plainTextToken;
-            return redirect("http://44.211.160.147/close-window?token=$token");
+            return redirect("https://mobistore.click/close-window?token=$token");
 
         } catch (\Exception $exception) {
             return response()->json( [

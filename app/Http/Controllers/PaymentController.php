@@ -16,7 +16,7 @@ class PaymentController extends Controller
     {
         $total_money = $request->total_money ?? 0;
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://44.211.160.147/payment/sucess";
+        $vnp_Returnurl = "https://mobistore.click/payment/sucess";
         $vnp_TmnCode = "BVWEWRZY";//Mã website tại VNPAY
         $vnp_HashSecret = "WZCUOWNUUFWTJFGIUDMSONFQBELHJZQW"; //Chuỗi bí mật
 
