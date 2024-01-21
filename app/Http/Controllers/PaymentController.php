@@ -15,13 +15,15 @@ class PaymentController extends Controller
     public function paymentVNPAY(Request $request)
     {
         $total_money = $request->total_money ?? 0;
+        $name = $request->name ?? "";
+        $phone = $request->phone ?? "";
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
         $vnp_Returnurl = "https://mobistore.click/payment/sucess";
         $vnp_TmnCode = "BVWEWRZY";//Mã website tại VNPAY
         $vnp_HashSecret = "WZCUOWNUUFWTJFGIUDMSONFQBELHJZQW"; //Chuỗi bí mật
 
         $vnp_TxnRef = Str::random(8); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
-        $vnp_OrderInfo = "Thanh toan hoa don Mobi Store";
+        $vnp_OrderInfo = "Thanh toan hoa don Mobi Store: Ho ten: $name, Sdt: $phone";
         $vnp_OrderType = "Mobi Store";
         $vnp_Amount = $total_money * 100;
         $vnp_Locale = "VN";
