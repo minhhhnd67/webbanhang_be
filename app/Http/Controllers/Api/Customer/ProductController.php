@@ -143,7 +143,10 @@ class ProductController extends BaseController
 
 
             $resIds = array_slice(array_keys($arrPoints), 0, 4);
-            $resData = $listProducts->whereIn('id', $resIds);
+            $resData = [];
+            foreach($resIds as $id) {
+                $resData[] = $listProducts->where('id', $id)->first();
+            }
 
             return $this->responseSuccess($resData);
         } catch (Exception $e) {
