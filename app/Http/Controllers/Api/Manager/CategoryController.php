@@ -139,21 +139,28 @@ class CategoryController extends BaseController
             foreach($attributes as $attribute) {
                 $attribute->attributeOptions()->delete();
             }
-            $category->attributes()->delete();
-
+            // dd($category->attributes);
+            // $category->attributes()->delete();
             $attributes = $request['attributes'];
-            foreach($attributes as $dataAttribute) {
-                $attribute = $this->attributeRepository->create([
-                    'category_id' => $category->id,
-                    'name' => $dataAttribute['name'],
-                    'suggest_point' => $dataAttribute['suggest_point'],
-                ]);
-                $attributeOptions = $dataAttribute['attributeOptions'];
-                foreach($attributeOptions as $dataAttributeOption) {
-                    $attributeOption = $this->attributeOptionRepository->create([
-                        'attribute_id' => $attribute->id,
-                        'name' => $dataAttributeOption['name']
-                    ]);
+            foreach($category->attributes as $attribute) {
+                foreach($attributes as $dataAttribute) {
+                    if ($attribute->name == $dataAttribute['name']) {
+                        $attribute->update([
+                            'suggest_point' => $dataAttribute['suggest_point'],
+                        ]);
+                    }
+                    // $attribute = $this->attributeRepository->create([
+                    //     'category_id' => $category->id,
+                    //     'name' => $dataAttribute['name'],
+                    //     'suggest_point' => $dataAttribute['suggest_point'],
+                    // ]);
+                    // $attributeOptions = $dataAttribute['attributeOptions'];
+                    // foreach($attributeOptions as $dataAttributeOption) {
+                    //     $attributeOption = $this->attributeOptionRepository->create([
+                    //         'attribute_id' => $attribute->id,
+                    //         'name' => $dataAttributeOption['name']
+                    //     ]);
+                    // }
                 }
             }
 
