@@ -136,9 +136,9 @@ class CategoryController extends BaseController
             ]);
 
             $attributes = $category->attributes;
-            foreach($attributes as $attribute) {
-                $attribute->attributeOptions()->delete();
-            }
+            // foreach($attributes as $attribute) {
+            //     $attribute->attributeOptions()->delete();
+            // }
             // dd($category->attributes);
             // $category->attributes()->delete();
             $attributes = $request['attributes'];
